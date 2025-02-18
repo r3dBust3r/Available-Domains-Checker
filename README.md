@@ -21,7 +21,7 @@ A tool that generates possible domain names based on a list of keywords.
 - Reads a file containing keywords separated by commas (,).
 - Generates domain names using the provided keywords.
 - Uses the following TLDs:
-  - `.com`, `.net`, `.co`, `.org`, `.io`, `.me`, `.online`, `.shop`, `.info`, `.dev`, `.tech`, `.app`, `.tv`, `.pro`
+  - `com`, `net`, `co`, `org`, `io`, `me`, `online`, `shop`, `info`, `dev`, `tech`, `app`, `tv`, `pro`, `de`, `at`, `au`, `be`, `br`, `ca`, `es`, `eu`, `fr`, `hu`, `ie`, `is`, `it`, `pl`, `uk`, `us`
 - Saves generated domain names to an output file.
 
 ---
