@@ -13,7 +13,10 @@ def get_keywords(file):
             lines = f.readlines()
             for line in lines:
                 for word in line.split(','):
-                    keywords.append(word.lower().strip())
+                    word = word.lower().strip()
+                    keywords.append(word.replace(' ', ''))
+                    keywords.append(word.replace(' ', '-'))
+                    keywords.append(word.replace(' ', '_'))
     
     except FileNotFoundError as e:
         print(f'[!] No such file {file}!')
