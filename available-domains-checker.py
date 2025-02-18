@@ -1,5 +1,12 @@
 import whois
 from concurrent.futures import ThreadPoolExecutor, as_completed
+import argparse
+
+def args_init():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-f', '--file', required=True, help="Path to your domain-list file")
+    parser.add_argument('-o', '--output', required=False, default="available_domain.txt", help="Output file")
+    return parser.parse_args()
 
 def read_domains(file_path):
     try:
@@ -24,9 +31,7 @@ def check_domain(domain):
         if not result.domain_name:
             print(f"[+] {domain} is available.")
             return domain
-        else:
-            print(f"[-] {domain} is unavailable.")
-            return None
+        else: return None
     except whois.parser.PywhoisError:
         # WHOIS query failure indicates the domain might be available
         print(f"[+] {domain} is available.")
@@ -36,8 +41,7 @@ def check_domain(domain):
         print(f"[!] Error checking {domain}: {e}")
         return None
 
-def check_domains_concurrently(domain_list, max_threads=20):
-    available_domains_file = 'available_domains.txt'
+def check_domains_concurrently(domain_list, output_file, max_threads=20):
     available_domains = []
 
     with ThreadPoolExecutor(max_threads) as executor:
@@ -49,19 +53,22 @@ def check_domains_concurrently(domain_list, max_threads=20):
                 result = future.result()
                 if result:
                     available_domains.append(result)
-                    save_domain(available_domains_file, result)
+                    save_domain(output_file, result)
             except Exception as e:
                 print(f'[!] Exception occurred while processing {domain}: {e}')
 
     return available_domains
 
 if __name__ == "__main__":
-    domain_list_file = input('Enter the path to your domain list file: ')
+
+    args = args_init()
+    
+    domain_list_file = args.file
     domains_to_check = read_domains(domain_list_file)
     
     print("[*] Checking domain availability...")
-    available_domains = check_domains_concurrently(domains_to_check)
+    available_domains = check_domains_concurrently(domains_to_check, args.output)
     
-    print("\n[*] Available domains:\n")
-    for domain in available_domains:
-        print(f'\t[+] {domain}')
+
+    print(f'[*] Done!')
+    print(f'Check your output file: {args.output}')
