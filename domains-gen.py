@@ -26,7 +26,7 @@ def get_keywords(file):
 
 def generate_domains(keywords):
     domains = list()
-    tlds = 'com, net, co, org, io, me, online, shop, info, dev, tech, app, tv, pro'.split(', ')
+    tlds = 'com, net, co, org, io, me, online, shop, info, dev, tech, app, tv, pro, de, at, au, be, br, ca, es, eu, fr, hu, ie, is, it, pl, uk, us'.split(', ')
     for w in keywords:
         for tld in tlds:
             domains.append(f'{w.lower().strip()}.{tld}')
